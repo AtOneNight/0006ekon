@@ -1,0 +1,14 @@
+mixin headerBlock()
+	+b.headerBlock.section#headerBlock&attributes(attributes)
+		+e.PICTURE.bg
+			source(type="image/webp" srcset="img/@2x/webp/dogg.webp")
+			img(src="img/@2x/dogg.jpg")
+		+e.container.container
+			+b.section-title.text-center
+				h1 Доставка дизельного палива <br> ЄВРО-5 з Європи <br> до вашого підприємства
+			+e.text-box
+				.text-pline Підходить для сільськогосподарської техніки, вантажівок та генераторів
+
+				.text-arrow
+					.text Для отримання точної ціни пройдіть будь ласка коротке опитування:
+					img(src="img/svg/arrow-down.svg")

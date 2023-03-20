@@ -1,0 +1,65 @@
+mixin sForm()
+	// start sForm
+	+b.SECTION.sForm.section#sForm&attributes(attributes)
+		.container
+			+e.FORM.box.quiz-form-js
+				+step({
+					title: "Який обсяг палива ви плануєте закупити?",
+					score: "1/3",
+					img: "img/@2x/fuelbarel.jpg",
+					backMuted:true,
+					forward:true,
+				})
+					+inputonslide("1","Від 2000л до 10000л")
+					+inputonslide("2","Від 10000л до 20000л")
+					+inputonslide("3","Більше 20000л")
+				+step({
+					title: "Куди потрібна доставка?",
+					score: "2/3",
+					img: "img/@2x/ukrainemap.jpg",
+					backMuted: true,
+					forward: true,
+				})
+					+inputonslide("1","Черкаська область")
+					+inputonslide("2","Полтавська область")
+					+inputonslide("3","Кіровоградська область")
+					+inputonslide("4","Вінницька область")
+					+inputonslide("5","Інший варіант")
+				+step({
+					title: "Оберіть зручний спосіб отримання комерційної пропозиції",
+					score: "3/3",
+					img: "img/@2x/handmail.jpg",
+					backMuted: true,
+					forward: true,
+				})
+
+mixin inputonslide(value,text)
+	+e.LABEL.r-item.row.align-items-center.d-flex
+		.col-auto
+			input(type="radio" name="volume" value=value)
+			.circle
+		.col
+			+e.lbl-txt=text
+mixin step(data)
+	+e.step.step-js
+		+e.row.row.gx-0.gy-0
+			+e.col.col-6
+				+e.title=data.title
+				+e.radio-group
+					block
+				+e.btn-row.row
+					.col-auto
+						+e.btn--back.back-btn-js(class=`${data.backMuted ? "disabled" : ''}`)
+							+icon("arrow-left")
+							span назад
+					.col-auto
+						if data.forward
+							+e.btn--forward.forward-btn-js.disabled
+								span далі
+								+icon("arrow-right")
+						else
+							+e.btn--send.send-btn-js.disabled(type="submit") Відправити
+				+e.page-score=data.score
+			.col-auto
+				+e.img-box
+					img(src=data.img)
