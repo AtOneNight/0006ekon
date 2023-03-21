@@ -9,6 +9,7 @@ mixin sForm()
 					img: "img/@2x/fuelbarel.jpg",
 					backMuted:true,
 					forward:true,
+					active:"active",
 				})
 					+inputonslide("1","Від 2000л до 10000л")
 					+inputonslide("2","Від 10000л до 20000л")
@@ -41,7 +42,7 @@ mixin inputonslide(value,text)
 		.col
 			+e.lbl-txt=text
 mixin step(data)
-	+e.step.step-js
+	+e.step.step-js(class=`${data.active ? data.active : ''}`)
 		+e.row.row.gx-0.gy-0
 			+e.col.col-6
 				+e.title=data.title

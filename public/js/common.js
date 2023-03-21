@@ -405,3 +405,10 @@ for(let [index,group] of Object.entries(radioInSteps)){
 		$(forwardBtns[index]).removeClass('disabled');
 	})
 }
+let activeStep = 0;
+console.log(steps)
+$(forwardBtns).click(() => {
+	$(steps[activeStep]).removeClass('active');
+	activeStep++;
+	$(steps[activeStep]).addClass('active');
+})

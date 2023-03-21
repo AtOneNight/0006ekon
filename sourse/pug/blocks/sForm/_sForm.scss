@@ -108,6 +108,12 @@
 		}
 
 	}
+	&__step{
+		display: none;
+		&.active{
+			display: block;
+		}
+	}
 
 
 
