@@ -70,7 +70,7 @@
 		flex-direction: column;
 		align-items: stretch;
 		justify-content: center;
-		padding: 76px 20px;
+		padding: 77.5px 67px;
 	}
 	&__img-box{
 		img{
@@ -114,7 +114,21 @@
 			display: block;
 		}
 	}
+	&__icon-row{
+		--bs-gutter-x: #{rem(48)};
+		margin-bottom: 1.25rem;
+	}
+	&__icon-radio{
+		&.active{
+			filter: grayscale(0);
+		}
+		input{
+			display: none;
+		}
+		filter: grayscale(1);
+	}
+	&__input{
+		margin-bottom: 1rem;
+	}
 
-
-
-} // end.sForm
+}

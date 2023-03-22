@@ -52,6 +52,16 @@
 			.text{
 				margin-right: rem(30);
 			}
+			&:after{
+				background-image: url("../img/svg/arrow-down.svg");
+				content: "";
+				display: block;
+				height: rem(20);
+				width: rem(20);
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-position: 50%;
+			}
 		}
 	}
 }

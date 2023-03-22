@@ -93,56 +93,28 @@ const JSCCommon = {
 
 	// tabs  .
 	tabscostume(tab) {
-		// const tabs = document.querySelectorAll(tab);
-		// const indexOf = element => Array.from(element.parentNode.children).indexOf(element);
-		// tabs.forEach(element => {
-		// 	let tabs = element;
-		// 	const tabsCaption = tabs.querySelector(".tabs__caption");
-		// 	const tabsBtn = tabsCaption.querySelectorAll(".tabs__btn");
-		// 	const tabsWrap = tabs.querySelector(".tabs__wrap");
-		// 	const tabsContent = tabsWrap.querySelectorAll(".tabs__content");
-		// 	const random = Math.trunc(Math.random() * 1000);
-		// 	tabsBtn.forEach((el, index) => {
-		// 		const data = `tab-content-${random}-${index}`;
-		// 		el.dataset.tabBtn = data;
-		// 		const content = tabsContent[index];
-		// 		content.dataset.tabContent = data;
-		// 		if (!content.dataset.tabContent == data) return;
-
-		// 		const active = content.classList.contains('active') ? 'active' : '';
-		// 		// console.log(el.innerHTML);
-		// 		content.insertAdjacentHTML("beforebegin", `<div class="tabs__btn-accordion  btn btn-primary  mb-1 ${active}" data-tab-btn="${data}">${el.innerHTML}</div>`)
-		// 	})
-
-
-		// 	tabs.addEventListener('click', function (element) {
-		// 		const btn = element.target.closest(`[data-tab-btn]:not(.active)`);
-		// 		if (!btn) return;
-		// 		const data = btn.dataset.tabBtn;
-		// 		const tabsAllBtn = this.querySelectorAll(`[data-tab-btn`);
-		// 		const content = this.querySelectorAll(`[data-tab-content]`);
-		// 		tabsAllBtn.forEach(element => {
-		// 			element.dataset.tabBtn == data
-		// 				? element.classList.add('active')
-		// 				: element.classList.remove('active')
-		// 		});
-		// 		content.forEach(element => {
-		// 			element.dataset.tabContent == data
-		// 				? (element.classList.add('active'), element.previousSibling.classList.add('active'))
-		// 				: element.classList.remove('active')
-		// 		});
-		// 	})
-		// })
-
-		$('.' + tab + '__caption').on('click', '.' + tab + '__btn:not(.active)', function (e) {
-			$(this)
-				.addClass('active').siblings().removeClass('active')
-				.closest('.' + tab).find('.' + tab + '__content').hide().removeClass('active')
-				.eq($(this).index()).fadeIn().addClass('active');
-
+		let tabs = {
+			Btn: [].slice.call(document.querySelectorAll(`.${tab}__btn`)),
+			BtnParent: [].slice.call(document.querySelectorAll(`.${tab}__caption`)),
+			Content: [].slice.call(document.querySelectorAll(`.${tab}__content`)),
+		};
+		tabs.Btn.forEach((element, index) => {
+			element.addEventListener('click', () => {
+				if (!element.classList.contains('active')) {
+					//turn off old
+					let oldActiveEl = element.closest(`.${tab}`).querySelector(`.${tab}__btn.active`);
+					let oldActiveContent = tabs.Content[index].closest(`.${tab}`).querySelector(`.${tab}__content.active`);
+					oldActiveEl.classList.remove('active');
+					oldActiveContent.classList.remove('active');
+					//turn on new(cklicked el)
+					element.classList.add('active');
+					tabs.Content[index].classList.add('active');
+				}
+			});
 		});
 
 	},
+
 	// /tabs
 
 	inputMask() {
@@ -301,7 +273,7 @@ const $ = jQuery;
 
 function eventHandler() { 
 	JSCCommon.modalCall();
-	// JSCCommon.tabscostume('tabs');
+	JSCCommon.tabscostume('tabs');
 	JSCCommon.mobileMenu();
 	JSCCommon.inputMask();
 	// JSCCommon.sendForm();
@@ -406,9 +378,51 @@ for(let [index,group] of Object.entries(radioInSteps)){
 	})
 }
 let activeStep = 0;
-console.log(steps)
+
 $(forwardBtns).click(() => {
 	$(steps[activeStep]).removeClass('active');
 	activeStep++;
 	$(steps[activeStep]).addClass('active');
 })
+$(backBtns).click(() => {
+	$(steps[activeStep]).removeClass('active');
+	activeStep--;
+	$(steps[activeStep]).addClass('active');
+})
+let tabs = form.querySelectorAll('.tabs__content');
+let txtInputsInTabs = [];
+let mergedTxtInputsInTabs = [];
+let activeTab = 0;
+for(let tab of tabs){
+	let inputs = tab.querySelectorAll('input');
+	txtInputsInTabs.push([...inputs]);
+
+	for(let input of inputs){
+		mergedTxtInputsInTabs.push(input);
+	}
+}
+
+$(radioInSteps[2]).change(function (){
+	$(sendBtn).addClass('disabled');
+	$(mergedTxtInputsInTabs).each(function (){
+		this.value = '';
+	})
+	activeTab = [...radioInSteps[2]].indexOf(this);
+});
+$(mergedTxtInputsInTabs).keyup(function (){
+	let atLeastOneIsNotValid = false;
+
+	for(let input of txtInputsInTabs[activeTab]){
+		if(input.value === ""){
+			atLeastOneIsNotValid = true;
+		}
+	}
+
+	if(atLeastOneIsNotValid){
+		$(sendBtn).addClass('disabled');
+	}
+	else {
+		$(sendBtn).removeClass('disabled');
+	}
+
+});
